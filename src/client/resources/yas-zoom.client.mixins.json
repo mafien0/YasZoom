@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "cc.mafien0.yaszoom.mixin",
+	"compatibilityLevel": "JAVA_21",
+	"mixins": [
+      "YasZoomMixin",
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

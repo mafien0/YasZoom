@@ -1,0 +1,41 @@
+{
+	"schemaVersion": 1,
+	"id": "yas-zoom",
+	"version": "${version}",
+	"name": "Yas Zoom",
+	"description": "Yet Another Simple Zoom Mod",
+	"authors": [
+		"mafien0"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/yas-zoom/icon.png",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			{
+				"value": "cc.mafien0.yaszoom.YasZoom",
+				"adapter": "kotlin"
+        }
+		]
+	},
+	"mixins": [
+		{
+			"config": "yas-zoom.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.18.1",
+		"minecraft": "~1.21.10",
+		"java": ">=21",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
