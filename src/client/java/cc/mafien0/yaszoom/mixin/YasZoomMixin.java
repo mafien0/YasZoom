@@ -16,12 +16,12 @@ public class YasZoomMixin {
     @Inject(method = "getFov(Lnet/minecraft/client/render/Camera;FZ)F", at = @At("RETURN"), cancellable = true)
     public void getZoomLevel(CallbackInfoReturnable<Float> callbackInfo) {
 
-        if (YasZoom.INSTANCE.isZooming()) {
+        if (YasZoom.INSTANCE.isKeyPressed()) {
             float fov = callbackInfo.getReturnValue();
             callbackInfo.setReturnValue(fov * YasZoom.ZOOM_LEVEL);
         }
 
-        YasZoom.INSTANCE.manageSmoothCamera();
+        YasZoom.INSTANCE.manageSensitivity();
 
     }
 }

@@ -9,8 +9,12 @@ import net.minecraft.util.Identifier
 import org.lwjgl.glfw.GLFW
 
 object YasZoom : ClientModInitializer {
-    const val ZOOM_LEVEL = 0.23f
     val mc: MinecraftClient? = MinecraftClient.getInstance()
+
+    const val ZOOM_LEVEL = 0.3f
+    const val SENSITIVITY_MODIFIER = 0.3f
+    var currentlyZooming = false
+    var originalSensitivity: Double? = mc?.options?.mouseSensitivity?.getValue() ?: 1.0
 
     // Keybind
     val category: KeyBinding.Category = KeyBinding.Category.create(
@@ -24,15 +28,30 @@ object YasZoom : ClientModInitializer {
         KeyBindingHelper.registerKeyBinding(keyBinding)
     }
 
-    fun isZooming(): Boolean = keyBinding.isPressed
-    fun enableSmoothCamera() = mc?.options?.smoothCameraEnabled = true
-    fun disableSmoothCamera() = mc?.options?.smoothCameraEnabled = false
+    fun isKeyPressed(): Boolean = keyBinding.isPressed
 
-    fun manageSmoothCamera() {
-        if (isZooming()) {
-            enableSmoothCamera()
-        } else {
-            disableSmoothCamera()
+    fun zoomStarting(): Boolean = isKeyPressed() && !currentlyZooming
+    fun zoomStopping(): Boolean = !isKeyPressed() && currentlyZooming
+    fun zoomStarted() { currentlyZooming = true }
+    fun zoomStopped() { currentlyZooming = false }
+
+    fun lowerSensitivity() {
+        originalSensitivity = mc?.options?.mouseSensitivity?.getValue()
+        mc?.options?.mouseSensitivity?.setValue(originalSensitivity?.times(SENSITIVITY_MODIFIER))
+    }
+
+    fun restoreSensitivity() {
+        mc?.options?.mouseSensitivity?.setValue(originalSensitivity)
+    }
+
+    fun manageSensitivity() {
+        if (zoomStarting()) {
+            zoomStarted()
+            lowerSensitivity()
+        }
+        if (zoomStopping()) {
+            zoomStopped()
+            restoreSensitivity()
         }
     }
 }
