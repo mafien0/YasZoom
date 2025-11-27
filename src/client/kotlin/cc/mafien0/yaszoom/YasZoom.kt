@@ -17,11 +17,11 @@ object YasZoom : ClientModInitializer {
     var originalSensitivity: Double? = mc?.options?.mouseSensitivity?.getValue() ?: 1.0
 
     // Keybind
-    val category: KeyBinding.Category = KeyBinding.Category.create(
+    val zoomKey: KeyBinding.Category = KeyBinding.Category.create(
         Identifier.of("yaszoom", "category")
     )
     val keyBinding = KeyBinding(
-        "yaszoom.key.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, category
+        "yaszoom.key.zoom", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_C, zoomKey
     )
 
     override fun onInitializeClient() {
