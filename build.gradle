@@ -80,10 +80,8 @@ publishMods {
     modrinth {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         projectId = "KYlfnkiO"
-        minecraftVersionRange {
-            start = "${project.minecraft_version}"
-            end = "${project.minecraft_version}"
-        }
+        minecraftVersions.add("${project.minecraft_version}")
+        projectDescription = providers.fileContents(layout.projectDirectory.file("readme.md")).asText
     }
 
     github {
