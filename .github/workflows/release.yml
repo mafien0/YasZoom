@@ -1,5 +1,9 @@
 name: Release
 on: [workflow_dispatch] # Manual trigger
+
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-22.04
@@ -16,7 +20,7 @@ jobs:
         with:
           context: changelog
           workflow_id: release.yml
-      - run: ./gradlew build publishMods publish --stacktrace --warning-mode=fail
+      - run: ./gradlew build publishMods --stacktrace
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
