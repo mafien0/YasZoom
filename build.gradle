@@ -79,7 +79,7 @@ publishMods {
 
     modrinth {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
-        projectId = "yaszoom"
+        projectId = "KYlfnkiO"
         minecraftVersionRange {
             start = "${project.minecraft_version}"
             end = "${project.minecraft_version}"
