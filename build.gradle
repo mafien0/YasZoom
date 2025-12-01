@@ -6,12 +6,9 @@ plugins {
     id 'me.modmuss50.mod-publish-plugin' version '0.8.1'
 }
 
-version = project.version
+version = project.mod_version
 group = project.maven_group
-
-base {
-    archivesName = project.archives_base_name
-}
+archivesBaseName = project.archives_base_name
 
 repositories {
     // ... your repositories
@@ -81,8 +78,8 @@ publishMods {
         accessToken = providers.environmentVariable("MODRINTH_TOKEN")
         projectId = "yaszoom"
         minecraftVersionRange {
-            start = "${project.version}"
-            end = "${project.version}"
+            start = "${project.minecraft_version}"
+            end = "${project.minecraft_version}"
         }
     }
 
