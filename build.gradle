@@ -1,9 +1,27 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id 'java'
-    id 'fabric-loom' version "${loom_version}"
     id 'maven-publish'
+    id 'fabric-loom' version "${loom_version}"
     id "org.jetbrains.kotlin.jvm" version "2.2.21"
     id 'me.modmuss50.mod-publish-plugin' version '0.8.1'
+}
+
+def optionalProp(String property, Closure block) {
+    def value = findProperty(property)?.toString()
+    if (value != null && !value.isBlank()) {
+        block(value)
+    }
+}
+
+static def getBranch() {
+    def env = System.getenv()
+    if (env.GITHUB_REF) {
+        def branch = env.GITHUB_REF
+        return branch.substring(branch.lastIndexOf("/") + 1)
+    }
+    return "main"
 }
 
 version = project.mod_version
@@ -14,7 +32,11 @@ base {
 }
 
 repositories {
-    // ... your repositories
+    mavenCentral()
+    exclusiveContent {
+        forRepository { maven { url ="https://maven.terraformersmc.com" } }
+        filter { includeGroup("com.terraformersmc") }
+    }
 }
 
 dependencies {
@@ -23,6 +45,12 @@ dependencies {
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
     modImplementation "net.fabricmc:fabric-language-kotlin:${project.fabric_kotlin_version}"
+
+    optionalProp("deps.modMenu") {
+        modCompileOnly("com.terraformersmc:modmenu:$it") {
+            exclude group: "net.fabricmc.fabric-api"
+        }
+    }
 }
 
 processResources {
@@ -41,7 +69,7 @@ tasks.withType(JavaCompile).configureEach {
     it.options.release = 21
 }
 
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+tasks.withType(KotlinCompile).all {
     kotlinOptions {
         jvmTarget = 21
     }
@@ -58,15 +86,6 @@ jar {
     from("LICENSE") {
         rename { "${it}_${inputs.properties.archivesName}"}
     }
-}
-
-def getBranch() {
-    def env = System.getenv()
-    if (env.GITHUB_REF) {
-        def branch = env.GITHUB_REF
-        return branch.substring(branch.lastIndexOf("/") + 1)
-    }
-    return "main"  // Fallback instead of throwing
 }
 
 publishMods {
