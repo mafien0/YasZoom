@@ -8,17 +8,17 @@ import net.minecraft.text.Text
 
 class ConfigScreen(title: Text, val parent: Screen) : Screen(title) {
     override fun init() {
-        val buttonWidget = ButtonWidget.builder(Text.literal("Hello World!")) {
-            client!!.toastManager.add(
-                SystemToast.create(
-                    client!!,
-                    SystemToast.Type.NARRATOR_TOGGLE,
-                    Text.literal("Hello World!"),
-                    Text.literal("This is a toast")
-                )
-            )
-        }.dimensions(40,40, 120, 20).build()
-        addDrawableChild(buttonWidget)
+//        val buttonWidget = ButtonWidget.builder(Text.literal("Hello World!")) {
+//            client!!.toastManager.add(
+//                SystemToast.create(
+//                    client!!,
+//                    SystemToast.Type.NARRATOR_TOGGLE,
+//                    Text.literal("Hello World!"),
+//                    Text.literal("This is a toast")
+//                )
+//            )
+//        }.dimensions(40,40, 120, 20).build()
+//        addDrawableChild(buttonWidget)
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
